@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "rootDir": "src",
+    "outDir": "dist",
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": "src",
+    "paths": {
+      /* alias raiz (sem barra) aponta pro barrel file) */
+      "entities":       ["entities/index.ts"],
+      /* alias com sub-caminhos */
+      "entities/*":     ["entities/*"],
+
+      "database":       ["database/index.ts"],
+      "database/*":     ["database/*"],
+
+      "utils/*":        ["utils/*"]
+    }
+  }
+}

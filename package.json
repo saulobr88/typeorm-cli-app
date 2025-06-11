@@ -1,0 +1,66 @@
+{
+  "name": "typeorm-cli-app",
+  "version": "1.0.0",
+  "description": "A CLI application using TypeORM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register src/cli.ts",
+    "migration:generate": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d src/database/data-source.ts src/database/migrations/Initial",
+    "migration:run": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run      -d src/database/data-source.ts",
+    "migration:revert": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert   -d src/database/data-source.ts",
+    "seed": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register src/database/seeds/index.ts",
+    "lint": "eslint -c .eslint.json 'src/**/*.{ts,tsx}'",
+    "lint:fix": "eslint -c .eslint.json --fix 'src/**/*.{ts,tsx}'",
+    "format": "prettier --write 'src/**/*.{ts,tsx,js,json,md}'",
+    "build": "tsc && tsc-alias -p tsconfig.json",
+    "prod": "node -r dotenv/config dist/cli.js",
+    "prepare": "husky install",
+    "migration:run:prod": "node -r dotenv/config dist/database/data-source.js migration:run",
+    "migration:revert:prod": "node -r dotenv/config dist/database/data-source.js migration:revert",
+    "seed:prod": "node -r dotenv/config dist/database/seeds/index.js",
+    "start:prod": "node -r dotenv/config dist/cli.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.1",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.8.0",
+    "chalk": "^4.1.2",
+    "dotenv": "^16.5.0",
+    "inquirer": "^12.6.3",
+    "pg": "^8.16.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.24",
+    "typeorm-extension": "^3.7.1"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.8",
+    "@types/node": "^24.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "@typescript-eslint/parser": "^8.34.0",
+    "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-import-resolver-typescript": "^4.4.3",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.4.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.0",
+    "prettier": "^3.5.3",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.16",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "prettier --write",
+      "eslint -c .eslint.json --fix"
+    ]
+  }
+}

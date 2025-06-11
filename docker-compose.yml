@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: typeorm-postgres-db
+    restart: always
+    #env_file:
+    #  - path: ./.env
+    #    required: true
+    env_file: "./.env"
+    environment:
+      - POSTGRES_DB=${DB_NAME:?err}
+      - POSTGRES_USER=${DB_USER:?err}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:?err}
+      - TIME_ZONE="America/Recife"
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - "./.data/postgres:/var/lib/postgresql/data"
+      # copy the sql script to create tables
+      #- ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql

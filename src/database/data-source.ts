@@ -9,9 +9,12 @@ dotenv.config({ path: path.join(process.cwd(), '.env') });
 
 const dbDriver = (process.env.DB_DRIVER || '').toLowerCase() || 'postgres';
 
+/* decide extensão em runtime */
+const ext = __filename.endsWith('.ts') ? 'ts' : 'js';
+
 const dataSourceObjEntities = {
-  entities: [path.join(__dirname, '../entities/*.ts')],
-  migrations: [path.join(__dirname, './migrations/*.ts')],
+  entities: [path.join(__dirname, `../entities/*.${ext}`)],
+  migrations: [path.join(__dirname, `./migrations/*.${ext}`)],
   synchronize: false, // nunca em produção!
 };
 
@@ -32,7 +35,7 @@ if (dbDriver === 'sqlite' || dbDriver === 'better-sqlite3') {
     type: 'better-sqlite3',
     database: process.env.SQLITE_PATH || './.data/db.sqlite',
     ...dataSourceObjEntities,
-    migrations: [path.join(__dirname, './migrations/sqlite3/*.ts')],
+    migrations: [path.join(__dirname, `./migrations/sqlite3/*.${ext}`)],
   };
 }
 

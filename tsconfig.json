@@ -4,6 +4,7 @@
     "module": "CommonJS",
     "rootDir": "src",
     "outDir": "dist",
+    "declaration": false,
     "strict": true,
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
@@ -12,14 +13,14 @@
     "baseUrl": "src",
     "paths": {
       /* alias raiz (sem barra) aponta pro barrel file) */
-      "entities":       ["entities/index.ts"],
+      "entities": ["entities/index.ts"],
       /* alias com sub-caminhos */
-      "entities/*":     ["entities/*"],
+      "entities/*": ["entities/*"],
 
-      "database":       ["database/index.ts"],
-      "database/*":     ["database/*"],
+      "database": ["database/index.ts"],
+      "database/*": ["database/*"],
 
-      "utils/*":        ["utils/*"]
+      "utils/*": ["utils/*"]
     }
   }
 }

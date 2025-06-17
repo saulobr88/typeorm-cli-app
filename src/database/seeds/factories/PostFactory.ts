@@ -1,7 +1,7 @@
 // src/database/seeds/factories/PostFactory.ts
-import { setSeederFactory } from 'typeorm-extension';
 import { faker } from '@faker-js/faker';
 import { Post } from 'entities/Post';
+import { setSeederFactory } from 'typeorm-extension';
 
 /**
  * Factory básica que gera um Post com título e conteúdo.

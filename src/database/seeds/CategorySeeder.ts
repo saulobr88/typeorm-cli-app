@@ -1,6 +1,6 @@
+import { Category } from 'entities/Category';
 import { DataSource } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
-import { Category } from 'entities/Category';
 
 /**
  * Cria três categorias fixas (Tech, News, Life) se ainda não existirem.
@@ -15,9 +15,7 @@ export default class CategorySeeder implements Seeder {
       return;
     }
 
-    const defaultCategories = ['Tech', 'News', 'Life'].map(name =>
-      categoryRepo.create({ name }),
-    );
+    const defaultCategories = ['Tech', 'News', 'Life'].map(name => categoryRepo.create({ name }));
 
     await categoryRepo.save(defaultCategories);
 

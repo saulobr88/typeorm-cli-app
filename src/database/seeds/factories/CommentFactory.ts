@@ -1,7 +1,7 @@
 // src/database/seeds/factories/CommentFactory.ts
-import { setSeederFactory } from 'typeorm-extension';
 import { faker } from '@faker-js/faker';
 import { Comment } from 'entities/Comment';
+import { setSeederFactory } from 'typeorm-extension';
 
 /**
  * Factory que gera um comentário simples (conteúdo de 6–16 palavras).

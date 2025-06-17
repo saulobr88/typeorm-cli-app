@@ -1,17 +1,14 @@
 // src/database/seeds/UserSeeder.ts
+import { User } from 'entities/User';
 import { DataSource } from 'typeorm';
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
-import { User } from 'entities/User';
 
 /**
  * Cria 10 usuários falsos usando a UserFactory registrada
  * (setSeederFactory) somente se ainda não houver registros.
  */
 export default class UserSeeder implements Seeder {
-  async run(
-    dataSource: DataSource,
-    factoryManager: SeederFactoryManager,
-  ): Promise<void> {
+  async run(dataSource: DataSource, factoryManager: SeederFactoryManager): Promise<void> {
     const userRepo = dataSource.getRepository(User);
 
     // evita duplicar seeder

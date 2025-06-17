@@ -1,7 +1,7 @@
 // src/database/seeds/factories/TagFactory.ts
-import { setSeederFactory } from 'typeorm-extension';
 import { faker } from '@faker-js/faker';
 import { Tag } from 'entities/Tag';
+import { setSeederFactory } from 'typeorm-extension';
 
 /**
  * Factory que gera tags usando adjetivos simples em minúsculas

@@ -1,11 +1,7 @@
 // src/entities/Tag.ts
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToMany
-} from "typeorm";
-import { Post } from "./Post";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Post } from './Post';
 
 @Entity()
 export class Tag {
@@ -16,6 +12,6 @@ export class Tag {
   name: string;
 
   // Uma Tag pode estar relacionada a muitos Posts (ManyToMany)
-  @ManyToMany(() => Post, (post) => post.tags)
+  @ManyToMany(() => Post, post => post.tags)
   posts: Post[];
 }

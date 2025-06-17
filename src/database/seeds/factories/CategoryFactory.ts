@@ -1,7 +1,7 @@
 // src/database/seeds/factories/CategoryFactory.ts
-import { setSeederFactory } from 'typeorm-extension';
 import { faker } from '@faker-js/faker';
 import { Category } from 'entities/Category';
+import { setSeederFactory } from 'typeorm-extension';
 
 /**
  * Factory que gera categorias com nomes curtos (1 – 2 palavras),

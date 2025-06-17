@@ -1,14 +1,8 @@
 // src/entities/User.ts
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToOne,
-  OneToMany,
-  JoinColumn
-} from "typeorm";
-import { Profile } from "./Profile";
-import { Post } from "./Post";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Post } from './Post';
+import { Profile } from './Profile';
 
 @Entity()
 export class User {
@@ -27,6 +21,6 @@ export class User {
   profile: Profile;
 
   // Um User pode possuir muitos Posts (OneToMany)
-  @OneToMany(() => Post, (post) => post.user)
+  @OneToMany(() => Post, post => post.user)
   posts: Post[];
 }

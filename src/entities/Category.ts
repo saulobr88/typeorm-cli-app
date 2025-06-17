@@ -1,6 +1,7 @@
 // src/entities/Category.ts
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Post } from "./Post";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Post } from './Post';
 
 @Entity()
 export class Category {
@@ -11,6 +12,6 @@ export class Category {
   name: string;
 
   // Uma Category pode possuir muitos Posts
-  @OneToMany(() => Post, (post) => post.category)
+  @OneToMany(() => Post, post => post.category)
   posts: Post[];
 }

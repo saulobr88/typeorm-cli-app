@@ -1,15 +1,17 @@
 import 'reflect-metadata';
-import inquirer from 'inquirer';
+
 import chalk from 'chalk';
 import { AppDataSource } from 'database/data-source';
-import { User } from 'entities/User';
-import { Post } from 'entities/Post';
 import { Category } from 'entities/Category';
-import { Tag } from 'entities/Tag';
 import { Comment } from 'entities/Comment';
+import { Post } from 'entities/Post';
+import { Tag } from 'entities/Tag';
+import { User } from 'entities/User';
+import inquirer from 'inquirer';
 import { printComments } from 'utils/commentTree';
 
 async function bootstrap() {
+  console.clear();
   await AppDataSource.initialize();
   console.log(chalk.green('\n📚 Blog CLI conectado ao banco!\n'));
   await mainMenu();
@@ -19,6 +21,7 @@ async function mainMenu(): Promise<void> {
   const answers = await inquirer.prompt([
     {
       type: 'list',
+      loop: false,
       name: 'action',
       message: 'Escolha uma ação:',
       choices: [
@@ -58,7 +61,12 @@ async function mainMenu(): Promise<void> {
 }
 
 async function createUser(): Promise<void> {
-  const { username, email, firstName, lastName } = await inquirer.prompt([
+  const { username, email, firstName, lastName } = await inquirer.prompt<{
+    username: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  }>([
     { type: 'input', name: 'username', message: 'Username:' },
     { type: 'input', name: 'email', message: 'Email:' },
     { type: 'input', name: 'firstName', message: 'Primeiro nome:' },
@@ -76,7 +84,7 @@ async function createUser(): Promise<void> {
 }
 
 async function createCategory(): Promise<void> {
-  const { name } = await inquirer.prompt([
+  const { name } = await inquirer.prompt<{ name: string }>([
     { type: 'input', name: 'name', message: 'Nome da categoria:' },
   ]);
   const repo = AppDataSource.getRepository(Category);
@@ -98,15 +106,24 @@ async function createPost(): Promise<void> {
     return;
   }
 
-  const answers = await inquirer.prompt([
+  const answers = await inquirer.prompt<{
+    userId: number;
+    catId: number;
+    title: string;
+    content: string;
+    tagIds: number[];
+    newTags: string;
+  }>([
     {
       type: 'list',
+      loop: false,
       name: 'userId',
       message: 'Autor:',
       choices: users.map(u => ({ name: u.username, value: u.id })),
     },
     {
       type: 'list',
+      loop: false,
       name: 'catId',
       message: 'Categoria:',
       choices: cats.map(c => ({ name: c.name, value: c.id })),
@@ -127,17 +144,14 @@ async function createPost(): Promise<void> {
     },
   ]);
 
-  const newTagNames : string[] = answers.newTags
+  const newTagNames: string[] = answers.newTags
     .split(',')
     .map((s: string) => s.trim())
     .filter(Boolean);
 
   const newTagEntities = await tagRepo.save(newTagNames.map(name => tagRepo.create({ name })));
 
-  const tagsForPost = [
-    ...tags.filter(t => answers.tagIds.includes(t.id)),
-    ...newTagEntities,
-  ];
+  const tagsForPost = [...tags.filter(t => answers.tagIds.includes(t.id)), ...newTagEntities];
 
   const postRepo = AppDataSource.getRepository(Post);
   const post = postRepo.create({
@@ -176,12 +190,16 @@ async function readPost(): Promise<void> {
     return;
   }
 
-  const { postId } = await inquirer.prompt([
+  const { postId } = await inquirer.prompt<{ postId: number }>([
     {
       type: 'list',
+      loop: false,
       name: 'postId',
       message: 'Selecione um post:',
-      choices: posts.map(p => ({ name: `${p.title} (autor: ${p.user.username})`, value: p.id })),
+      choices: posts.map(p => ({
+        name: `[${p.id}] ${p.title} (autor: ${p.user.username})`,
+        value: p.id,
+      })),
     },
   ]);
 
@@ -216,9 +234,10 @@ async function openPost(postId: number): Promise<void> {
   console.log(chalk.magenta('Comentários:'));
   printComments(post.comments);
 
-  const { action } = await inquirer.prompt([
+  const { action } = await inquirer.prompt<{ action: string }>([
     {
       type: 'list',
+      loop: false,
       name: 'action',
       message: 'O que deseja fazer?',
       choices: [
@@ -230,7 +249,7 @@ async function openPost(postId: number): Promise<void> {
   ]);
 
   if (action === 'Adicionar comentário raiz') {
-    const { content } = await inquirer.prompt([
+    const { content } = await inquirer.prompt<{ content: string }>([
       { type: 'input', name: 'content', message: 'Conteúdo do comentário:' },
     ]);
 
@@ -244,9 +263,10 @@ async function openPost(postId: number): Promise<void> {
     if (!flat.length) {
       console.log(chalk.yellow('Não há comentários ainda.'));
     } else {
-      const { parentId, content } = await inquirer.prompt([
+      const { parentId, content } = await inquirer.prompt<{ parentId: number; content: string }>([
         {
           type: 'list',
+          loop: false,
           name: 'parentId',
           message: 'Selecione o comentário a responder:',
           choices: flat.map(c => ({ name: `[${c.id}] ${c.content.slice(0, 50)}`, value: c.id })),

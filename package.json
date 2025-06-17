@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register src/cli.ts",
     "migration:generate": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d src/database/data-source.ts src/database/migrations/Initial",
+    "migration:generate:sqlite": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d src/database/data-source.ts src/database/migrations/sqlite3/Initial",
     "migration:run": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run      -d src/database/data-source.ts",
     "migration:revert": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert   -d src/database/data-source.ts",
     "seed": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register src/database/seeds/index.ts",
@@ -30,6 +31,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^9.8.0",
+    "better-sqlite3": "^11.10.0",
     "chalk": "^4.1.2",
     "dotenv": "^16.5.0",
     "inquirer": "^12.6.3",
